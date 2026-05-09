@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Models\Employee;
+use App\Models\Employee;
 
 class EmployeeController extends Controller
 {
@@ -25,7 +25,7 @@ class EmployeeController extends Controller
         try {
             $employees = Employee::all();
             //select * from employees;
-            return response()->json($employees);
+            return response()->json($employees, 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'An error occurred while fetching employees.',
@@ -68,6 +68,8 @@ class EmployeeController extends Controller
     public function show(string $id)
     {
         try {
+            $employee = Employee::FindOrFail($id);
+            return response()->json($employee, 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'An error occurred while fetching employee.',
@@ -83,6 +85,21 @@ class EmployeeController extends Controller
     public function update(Request $request, string $id)
     {
         try {
+            $employee = Employee::FindOrFail($id);
+
+            //validation
+            $validatedData = $request->validate([
+                'last_name' => 'required|string|max:100',
+                'first_name' => 'required|string|max:100',
+                'gender' => 'nullable|string|max:10',
+                'birthday' => 'nullable|date',
+                'date_hired' => 'required|date',
+                'salary' => 'nullable|numeric'
+            ]);
+
+            $employee->update($validatedData);
+
+            return response()->json($employee, 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'An error occurred while updating employee.',
@@ -97,6 +114,12 @@ class EmployeeController extends Controller
     public function destroy(string $id)
     {
         try {
+            $employee = Employee::FindOrFail($id);
+            $employee->delete();
+            return response()->json([
+                'message' => 'Employee deleted successfully.',
+                'employee_id' => $id
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'An error occurred while deleting employee.',
