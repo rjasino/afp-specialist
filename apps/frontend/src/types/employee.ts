@@ -11,7 +11,10 @@ export interface Employee {
   updated_at: string;
 }
 
-export type EmployeeFormData = Omit<Employee, "id">;
+export type EmployeeFormData = Omit<
+  Employee,
+  "id" | "created_at" | "updated_at"
+>;
 
 export interface ApiResponse<T> {
   success: boolean;

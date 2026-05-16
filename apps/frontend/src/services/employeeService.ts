@@ -1,4 +1,8 @@
-import type { Employee, ApiResponse } from "../types/employee";
+import type {
+  Employee,
+  EmployeeFormData,
+  ApiResponse,
+} from "../types/employee";
 
 const BASE_URL = "http://localhost:8000/api";
 
@@ -16,12 +20,11 @@ export async function fetchAllEmployees(): Promise<Employee[]> {
     );
   }
   const json: ApiResponse<Employee[]> = await response.json();
-
   return json.data;
 }
 
 export async function createEmployee(
-  employeeData: Employee,
+  employeeData: EmployeeFormData,
 ): Promise<Employee> {
   const response = await fetch(`${BASE_URL}/employees`, {
     method: "POST",
