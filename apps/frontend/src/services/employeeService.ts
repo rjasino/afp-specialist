@@ -41,3 +41,22 @@ export async function createEmployee(
   const json: ApiResponse<Employee> = await response.json();
   return json.data;
 }
+
+export async function fetchEmployeeById(id: number): Promise<Employee> {
+  const response = await fetch(`${BASE_URL}/employees/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    //200
+    throw new Error(
+      `Server error: ${response.status} - Could not load employee.`,
+    );
+  }
+
+  const json: ApiResponse<Employee> = await response.json();
+  return json.data;
+}
