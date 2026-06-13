@@ -52,7 +52,12 @@ class PensionerController extends Controller
                 'retirement_date' => 'required|date'
             ]);
 
-            $pensioner = Pensioner::create($validatedData);
+            $pensionerData = [
+                ...$validatedData,
+                'amount_centavos' => $validatedData['amount_centavos'] * 100, // Convert to centavos
+            ];
+
+            $pensioner = Pensioner::create($pensionerData);
             //insert into pensioners (last_name, first) values ('Doe', 'John');
             $response = [
                 'success' => true,
@@ -108,7 +113,12 @@ class PensionerController extends Controller
                 'retirement_date' => 'required|date'
             ]);
 
-            $pensioner->update($validatedData);
+            $pensionerData = [
+                ...$validatedData,
+                'amount_centavos' => $validatedData['amount_centavos'] * 100, // Convert to centavos
+            ];
+
+            $pensioner->update($pensionerData);
 
             return response()->json($pensioner, 200);
         } catch (\Exception $e) {
