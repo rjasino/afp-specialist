@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\PensionerController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -20,3 +21,9 @@ Route::post('/employees', [EmployeeController::class, 'store']);
 Route::get('/employees/{id}', [EmployeeController::class, 'show']);
 Route::put('/employees/{id}', [EmployeeController::class, 'update']);
 Route::delete('/employees/{id}', [EmployeeController::class, 'destroy']);
+
+Route::get('/pensioners', [PensionerController::class, 'index']);
+Route::post('/pensioners', [PensionerController::class, 'store']);
+Route::get('/pensioners/{id}', [PensionerController::class, 'show']);
+Route::put('/pensioners/{id}', [PensionerController::class, 'update']);
+Route::delete('/pensioners/{id}', [PensionerController::class, 'destroy']);
